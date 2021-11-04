@@ -17,7 +17,7 @@ const Login = () => {
         console.log(data)
     };
 
-    const {register, handleSubmit} = useForm();
+    const {register, formState: { errors },  handleSubmit} = useForm();
 
     const {email, password} = formData;
 
