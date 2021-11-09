@@ -1,10 +1,14 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form, Button, Segment, Label, Container, Input, Icon } from 'semantic-ui-react'
 import './login.css'
+//redux
+import {connect} from 'react-redux';
+import { login } from "../../actions/auth";
+import PropTypes from 'prop-types';
 
-const Login = () => {
+const Login = ({login, isAuthenticated}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,8 +26,9 @@ const Login = () => {
   const hidePassword = () => {
       setAuxData({...auxData, showPassword: ! auxData.showPassword})
   }
-  const onSubmit = async (data) => {
-    console.log(data);
+  const onSubmit = async ({email, password}) => {
+    login({email, password})
+    console.log(email, password)
   };
 
   const {
@@ -33,6 +38,10 @@ const Login = () => {
   } = useForm();
 
   const { email, password } = formData;
+
+  if(isAuthenticated){
+    return <Redirect to='/products' />
+  }
 
   return (
     <Container textAlign="center" style={{width:"40vw"}}>
@@ -78,4 +87,13 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated:state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, {login})(Login);
