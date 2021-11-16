@@ -4,7 +4,7 @@ import {
   PRODUCT_ERROR,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
-  ADD_PRODUCT
+  ADD_PRODUCT,
 } from "../actions/types";
 
 const initialState = {
@@ -42,7 +42,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         products: state.products.filter((product) => product._id !== payload),
-        loading: false
+        loading: false,
       };
     case PRODUCT_ERROR:
       return {

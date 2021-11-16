@@ -1,7 +1,6 @@
 import {
     GET_CONVERSATION,
     GET_CONVERSATIONS,
-    UPDATE_CONVERSATION,
     CONVERSATION_ERROR,
   } from "../actions/types";
   

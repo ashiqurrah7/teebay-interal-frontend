@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createProduct } from "../../actions/product";
 
-const AddProduct = ({createProduct}) => {
+const AddProduct = ({ createProduct }) => {
   const [formData, setFormData] = useState({
     title: "",
     desc: "",
@@ -34,12 +34,12 @@ const AddProduct = ({createProduct}) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onCategoriesChange = (e, {value}) => {
+  const onCategoriesChange = (e, { value }) => {
     setFormData({ ...formData, category_ids: value });
   };
 
   const onSubmit = async () => {
-    createProduct(formData)
+    createProduct(formData);
   };
 
   const {
@@ -121,7 +121,7 @@ const AddProduct = ({createProduct}) => {
 };
 
 AddProduct.propTypes = {
-    createProduct: PropTypes.func.isRequired,
+  createProduct: PropTypes.func.isRequired,
 };
 
-export default connect(null, {createProduct})(AddProduct);
+export default connect(null, { createProduct })(AddProduct);

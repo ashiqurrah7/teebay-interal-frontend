@@ -12,7 +12,12 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getProduct, editProduct } from "../../actions/product";
 
-const EditProduct = ({product: {product, loading}, getProduct, editProduct, match}) => {
+const EditProduct = ({
+  product: { product, loading },
+  getProduct,
+  editProduct,
+  match,
+}) => {
   const [formData, setFormData] = useState({
     title: "",
     desc: "",
@@ -33,12 +38,12 @@ const EditProduct = ({product: {product, loading}, getProduct, editProduct, matc
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onCategoriesChange = (e, {value}) => {
+  const onCategoriesChange = (e, { value }) => {
     setFormData({ ...formData, category_ids: value });
   };
 
   const onSubmit = () => {
-    editProduct(match.params.id,formData)
+    editProduct(match.params.id, formData);
   };
 
   const {
@@ -49,10 +54,10 @@ const EditProduct = ({product: {product, loading}, getProduct, editProduct, matc
 
   const { title, desc, price } = formData;
 
-  useEffect(() =>{
-      getProduct(match.params.id)
-     if (product) setFormData(product)
-  },[match.params.id, getProduct, loading])
+  useEffect(() => {
+    getProduct(match.params.id);
+    if (product) setFormData(product);
+  }, [match.params.id, getProduct, loading]);
 
   return (
     <Container textAlign="center" style={{ width: "40vw" }}>
@@ -110,7 +115,7 @@ const EditProduct = ({product: {product, loading}, getProduct, editProduct, matc
             <Select
               placeholder="Select Categories"
               onChange={onCategoriesChange}
-            //   value={category_ids}
+              //   value={category_ids}
               options={countryOptions}
               multiple
             />
@@ -125,14 +130,15 @@ const EditProduct = ({product: {product, loading}, getProduct, editProduct, matc
 };
 
 EditProduct.propTypes = {
-    getProduct: PropTypes.func.isRequired,
-    product: PropTypes.object.isRequired,
-    editProduct: PropTypes.func.isRequired
-    
-}
-  
-const mapStateToProps = state => ({
-    product: state.product
+  getProduct: PropTypes.func.isRequired,
+  product: PropTypes.object.isRequired,
+  editProduct: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  product: state.product,
 });
 
-export default connect(mapStateToProps, {getProduct,editProduct})(EditProduct);
+export default connect(mapStateToProps, { getProduct, editProduct })(
+  EditProduct
+);

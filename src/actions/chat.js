@@ -2,10 +2,9 @@ import axios from "axios";
 import {
   GET_CONVERSATION,
   GET_CONVERSATIONS,
-  UPDATE_CONVERSATION,
-  SEND_MESSAGE,
   CONVERSATION_ERROR,
 } from "../actions/types";
+import { handleErrors } from "./errorHandler";
 
 //get conversation by Id
 export const getConversation = (conversationId) => async (dispatch) => {
@@ -18,30 +17,12 @@ export const getConversation = (conversationId) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err)
+    handleErrors(err);
     dispatch({
       type: CONVERSATION_ERROR,
       payload: {
-        message: err.response,
+        message: err.response.statusText,
         status: err.response.status,
-      },
-    });
-  }
-};
-
-//update existing conversation
-export const updateMessage = (updatedMessage) => async (dispatch) => {
-  try {
-    dispatch({
-      type: UPDATE_CONVERSATION,
-      payload: updatedMessage,
-    });
-  } catch (err) {
-    dispatch({
-      type: CONVERSATION_ERROR,
-      payload: {
-        message: "Error updating conversation",
-        status: "Unknown Error",
       },
     });
   }
@@ -56,34 +37,7 @@ export const getConversations = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.error(err)
-    dispatch({
-      type: CONVERSATION_ERROR,
-      payload: {
-        message: err,
-        status: err
-      },
-    });
-  }
-};
-
-export const sendMessage = (formData) => async (dispatch) => {
-
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  try {
-    
-    const res = await axios.post(`http://localhost:3000/messages`, formData, config);
-
-    // dispatch({
-    //   type: SEND_MESSAGE,
-    //   payload: res.data
-    // });
-    
-  } catch (err) {
+    handleErrors(err);
     dispatch({
       type: CONVERSATION_ERROR,
       payload: {
