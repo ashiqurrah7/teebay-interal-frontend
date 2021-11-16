@@ -1,15 +1,15 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Form, Button, Segment,Label, Container, Input, Icon } from 'semantic-ui-react'
+//redux
+import {connect} from 'react-redux';
+import { registerUser } from "../../actions/auth";
+import PropTypes from 'prop-types';
 
-const Register = () => {
+const Register = ({isAuthenticated, registerUser}) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    address: "",
     email: "",
-    phone: "",
     password: "",
   });
 
@@ -35,7 +35,7 @@ const Register = () => {
     setAuxData({...auxData, showCPassword: !auxData.showCPassword})
   }
   const onSubmit = async (data) => {
-    console.log(data);
+    registerUser(formData)
   };
 
   const {
@@ -145,4 +145,13 @@ const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+}
+
+const mapStateToProps = state => ({
+  isAuthenticated:state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, {registerUser})(Register);

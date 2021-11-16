@@ -3,14 +3,14 @@ import {  Segment, Container, Dimmer, Loader } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { getProducts } from "../../actions/product"
+import {loadUser} from '../../actions/auth'
 
-const Products = ({ product: { products, loading }, getProducts }) => {
+const MyProducts = ({ auth: { user, loading }, loadUser }) => {
 
 
     useEffect(() => {
-        getProducts();
-    }, [getProducts]);
+        loadUser()
+    }, [loadUser,loading]);
 
     return (
         <Container textAlign="center" style={{width:"50vw"}}>
@@ -20,9 +20,9 @@ const Products = ({ product: { products, loading }, getProducts }) => {
                 </Dimmer>
             ) : (
                 <Fragment>
-                    <h1>Products</h1>
-                    {products.length > 0 ? (
-                    products.map(product => (
+                    <h1>My Products</h1>
+                    {user ? user.products.length > 0 ? (
+                    user.products.map(product => (
                         <Segment key={product.id}>
                             <h3><Link to={`/${product.id}`}>{product.title}</Link></h3>
                             <p>Categories: {product.categories.map(category => (category.name+" "))}</p>
@@ -30,7 +30,7 @@ const Products = ({ product: { products, loading }, getProducts }) => {
                             <p>Price: {product.price}</p>
                         </Segment>
                     ))
-                    ) : <Segment>No Products available at this time</Segment>}
+                    ) : <Segment>No Products available at this time</Segment> : <Segment>Nothing to display</Segment>}
                 </Fragment>
             )}
         </Container>
@@ -38,13 +38,13 @@ const Products = ({ product: { products, loading }, getProducts }) => {
 
 }
 
-Products.propTypes = {
-    getProducts: PropTypes.func.isRequired,
-    product: PropTypes.object.isRequired,
+MyProducts.propTypes = {
+    loadUser: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
   };
   
 const mapStateToProps = (state) => ({
-    product: state.product,
+    auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getProducts })(Products)
+export default connect(mapStateToProps, { loadUser })(MyProducts)

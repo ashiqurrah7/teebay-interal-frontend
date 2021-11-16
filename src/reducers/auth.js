@@ -29,10 +29,11 @@ import {
         };
       case REGISTER_SUCCESS:
       case LOGIN_SUCCESS:
-        localStorage.setItem("token", payload.jwt);
+        localStorage.setItem("token", payload.access_token);
         return {
           ...state,
-          ...payload,
+          ...payload.user,
+          token: payload.access_token,
           isAuthenticated: true,
           loading: false,
         };

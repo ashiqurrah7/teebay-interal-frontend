@@ -12,11 +12,10 @@ import {
 // Get products
 export const getProducts = () => async (dispatch) => {
   try {
-    const res = await axios.get("http://localhost:1337/products");
-
+    const res = await axios.get("http://localhost:3000/products");
     dispatch({
       type: GET_PRODUCTS,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
@@ -32,11 +31,10 @@ export const getProducts = () => async (dispatch) => {
 //Get product
 export const getProduct = (productId) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:1337/products/${productId}`);
-
+    const res = await axios.get(`http://localhost:3000/products/${productId}`);
     dispatch({
       type: GET_PRODUCT,
-      payload: res.data,
+      payload: res.data
     });
   } catch (err) {
     dispatch({
@@ -49,11 +47,69 @@ export const getProduct = (productId) => async (dispatch) => {
   }
 };
 
+// Add product
+export const createProduct = (formData) => async (dispatch) => {
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    
+    const res = await axios.post(`http://localhost:3000/products`, formData, config);
+
+    dispatch({
+      type: ADD_PRODUCT,
+      payload: res.data
+    });
+    
+    dispatch(setAlert('Product Created', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_ERROR,
+      payload: {
+        message: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+export const editProduct = (productId,formData) => async (dispatch) => {
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  try {
+    
+    const res = await axios.put(`http://localhost:3000/products/${productId}`, formData, config);
+
+    dispatch({
+      type: UPDATE_PRODUCT,
+      payload: res.data
+    });
+    
+    dispatch(setAlert('Product Edited', 'success'));
+  } catch (err) {
+    // dispatch({
+    //   type: PRODUCT_ERROR,
+    //   payload: {
+    //     message: err.response.statusText,
+    //     status: err.response.status,
+    //   },
+      
+    // });
+    dispatch(setAlert(err.response.data.message, 'danger'));
+  }
+};
+
 // Remove product
 export const removeProduct = (productId) => async (dispatch) => {
   try {
-    console.log("here again");
-    await axios.delete(`http://localhost:1337/products/${productId}`);
+    await axios.delete(`http://localhost:3000/products/${productId}`);
 
     dispatch({
       type: DELETE_PRODUCT,
@@ -72,31 +128,3 @@ export const removeProduct = (productId) => async (dispatch) => {
   }
 };
 
-// Add product
-export const addProduct = formData => async (dispatch) => {
-
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  try {
-    const res = await axios.post(`http://localhost:1337/products`, formData, config);
-
-    dispatch({
-      type: ADD_PRODUCT,
-      payload: res.data
-    });
-    
-    dispatch(setAlert('Product Created', 'success'));
-  } catch (err) {
-    dispatch({
-      type: PRODUCT_ERROR,
-      payload: {
-        message: err.response.statusText,
-        status: err.response.status,
-      },
-    });
-  }
-};

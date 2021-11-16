@@ -27,8 +27,7 @@ const Login = ({login, isAuthenticated}) => {
       setAuxData({...auxData, showPassword: ! auxData.showPassword})
   }
   const onSubmit = async ({email, password}) => {
-    login({email, password})
-    console.log(email, password)
+    login(formData)
   };
 
   const {
