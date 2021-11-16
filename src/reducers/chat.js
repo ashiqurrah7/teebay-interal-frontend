@@ -1,11 +1,11 @@
 import {
     GET_CONVERSATION,
-    GET_CONVERSATIONS,
+    GETTING_CONVERSATION,
     CONVERSATION_ERROR,
+    CREATE_CONVERSATION,
   } from "../actions/types";
   
   const initialState = {
-    conversations: [],
     conversation: null,
     loading: true,
     error: {},
@@ -17,16 +17,15 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_CONVERSATION:
+    case CREATE_CONVERSATION:
       return {
         ...state,
         conversation: payload,
         loading: false,
       };
-    case GET_CONVERSATIONS:
+    case GETTING_CONVERSATION:
       return {
-        ...state,
-        conversations: payload,
-        loading: false,
+        loading: true,
       };
     case CONVERSATION_ERROR:
       return {

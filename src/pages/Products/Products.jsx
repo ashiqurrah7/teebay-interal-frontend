@@ -29,7 +29,7 @@ const Products = ({ product: { products, loading }, getProducts }) => {
                   Categories:{" "}
                   {product.categories.map((category) => category.name + " ")}
                 </p>
-                <p>{product.desc}</p>
+                <p>Description: {product.desc}</p>
                 <p>Price: ${product.price}</p>
               </Segment>
             ))

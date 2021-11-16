@@ -24,13 +24,13 @@ const MyProducts = ({ auth: { user, loading }, loadUser }) => {
               user.products.map((product) => (
                 <Segment key={product.id}>
                   <h3>
-                    <Link to={`products/${product.id}`}>{product.title}</Link>
+                    <Link to={`${product.id}`}>{product.title}</Link>
                   </h3>
                   <p>
                     Categories:{" "}
                     {product.categories.map((category) => category.name + " ")}
                   </p>
-                  <p>{product.desc}</p>
+                  <p>Description: {product.desc}</p>
                   <p>Price: ${product.price}</p>
                 </Segment>
               ))

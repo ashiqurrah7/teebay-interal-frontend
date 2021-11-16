@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
   GET_CONVERSATION,
-  GET_CONVERSATIONS,
+  GETTING_CONVERSATION,
+  CREATE_CONVERSATION,
   CONVERSATION_ERROR,
 } from "../actions/types";
 import { handleErrors } from "./errorHandler";
@@ -28,16 +29,29 @@ export const getConversation = (conversationId) => async (dispatch) => {
   }
 };
 
-//get conversations
-export const getConversations = () => async (dispatch) => {
+//create conversation if no existing conversation exists
+export const createConversation = (formData, history) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
   try {
-    const res = await axios.get("http://localhost:3000/conversations");
+    const res = await axios.post(
+      `http://localhost:3000/conversations`,
+      formData,
+      config
+    );
+
     dispatch({
-      type: GET_CONVERSATIONS,
+      type: CREATE_CONVERSATION,
       payload: res.data,
     });
+
+    history.push(`/chat/${res.data.id}`);
+
   } catch (err) {
-    handleErrors(err);
     dispatch({
       type: CONVERSATION_ERROR,
       payload: {

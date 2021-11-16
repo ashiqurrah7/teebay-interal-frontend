@@ -30,6 +30,10 @@ const NavBar = ({ logout }) => {
     setActiveItem(name);
     history.push("/products/me");
   };
+  const goToAddProducts = (e, { name }) => {
+    setActiveItem(name);
+    history.push("/products/add");
+  };
   const goToLogin = (e, { name }) => {
     setActiveItem(name);
     history.push("/login");
@@ -39,7 +43,7 @@ const NavBar = ({ logout }) => {
     history.push("/register");
   };
 
-  useEffect(() => {}, [isAuthenticated]);
+  useEffect(() => {}, [user]);
 
   return (
     <div style={divStyle}>
@@ -55,6 +59,11 @@ const NavBar = ({ logout }) => {
               name="my products"
               active={activeItem === "my products"}
               onClick={goToMyProducts}
+            />
+            <Menu.Item
+              name="add products"
+              active={activeItem === "add products"}
+              onClick={goToAddProducts}
             />
           </Fragment>
         ) : (
@@ -82,7 +91,7 @@ const NavBar = ({ logout }) => {
 };
 
 NavBar.propTypes = {
-  login: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 

@@ -19,15 +19,16 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
 import NavBar from "./pages/NavBar/NavBar";
+import LandingPage from "./pages/LandingPage/LandingPage";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
 
-const App = ({ cableApp }) => {
+const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
-  }, [cableApp]);
+  }, []);
   return (
     <Provider store={store}>
       <Router>
@@ -39,6 +40,7 @@ const App = ({ cableApp }) => {
         />
         <NavBar />
         <Switch>
+          <Route exact path="/" component={LandingPage} />
           <PrivateRoute exact path="/products" component={Products} />
           <PrivateRoute exact path="/products/add" component={AddProduct} />
           <PrivateRoute exact path="/products/me" component={MyProducts} />
@@ -48,11 +50,7 @@ const App = ({ cableApp }) => {
             path="/products/:id/edit"
             component={EditProduct}
           />
-          <Route
-            exact
-            path="/chat/:id"
-            render={(props) => <Chat {...props} cableApp={cableApp} />}
-          />
+          <PrivateRoute exact path="/chat/:id" component={Chat} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
         </Switch>

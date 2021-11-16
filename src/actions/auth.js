@@ -32,7 +32,7 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //Register User
-export const registerUser = (formData) => async (dispatch) => {
+export const registerUser = ({email,password}) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const registerUser = (formData) => async (dispatch) => {
   try {
     const res = await axios.post(
       "http://localhost:3000/users",
-      formData,
+      {email,password},
       config
     );
 
@@ -50,7 +50,7 @@ export const registerUser = (formData) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-    login(formData);
+    login({email,password});
   } catch (err) {
     handleLoginErrors(err);
     dispatch({
